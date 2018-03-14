@@ -1,0 +1,33 @@
+{
+  "name": "prebuildify-ci",
+  "version": "0.0.0",
+  "description": "Easily setup prebuilding of native modules using CI and prebuildify",
+  "main": "index.js",
+  "dependencies": {
+    "ghreleases": "^2.0.0",
+    "package-repo": "^1.0.0",
+    "request": "^2.85.0",
+    "rimraf": "^2.6.2",
+    "tar-fs": "^1.16.0",
+    "unzip": "^0.1.11"
+  },
+  "devDependencies": {
+    "standard": "^11.0.0"
+  },
+  "scripts": {
+    "test": "standard"
+  },
+  "bin": {
+    "prebuildify-ci": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mafintosh/prebuildify-ci.git"
+  },
+  "author": "Mathias Buus (@mafintosh)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafintosh/prebuildify-ci/issues"
+  },
+  "homepage": "https://github.com/mafintosh/prebuildify-ci"
+}
