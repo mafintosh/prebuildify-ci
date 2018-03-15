@@ -110,13 +110,13 @@ function travis (token) {
     addons:
       apt:
         sources:
-          - ubuntu-toolchain-r-test
+        - ubuntu-toolchain-r-test
         packages:
-          - g++-4.8
-          - gcc-4.8-multilib
-          - g++-4.8-multilib
-          - gcc-multilib
-          - g++-multilib
+        - g++-4.8
+        - gcc-4.8-multilib
+        - g++-4.8-multilib
+        - gcc-multilib
+        - g++-multilib
     os:
     - osx
     - linux
@@ -124,18 +124,19 @@ function travis (token) {
     - ARCHIVE_NAME="\${TRAVIS_TAG:-latest}-$TRAVIS_OS_NAME-\`uname -m\`.tar"
     - npm run prebuild
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ARCH=ia32 npm run prebuild; fi
-    - tar --create --verbose --file="$ARCHIVE_NAME" --directory "$TRAVIS_BUILD_DIR/prebuilds" .
+    - tar --create --verbose --file="$ARCHIVE_NAME" --directory "$TRAVIS_BUILD_DIR/prebuilds"
+      .
     deploy:
       provider: releases
       draft: false
       prerelease: true
-      api_key:
-        secure: ${token}
       file: "$ARCHIVE_NAME"
       skip_cleanup: true
       on:
         tags: true
         node: node
+      api_key:
+        secure: ${token}
   `)
 }
 
