@@ -86,7 +86,13 @@ function download () {
         })
 
         if (/\.zip$/.test(next.name)) {
-          req.pipe(unzip.Extract({ path: '.prebuilds.tmp' })).on('close', loop)
+          var buf = []
+          req.on('data', data => buf.push(data))
+          req.on('end', function () {
+            var uz = unzip.Extract({ path: '.prebuilds.tmp' }).on('close', loop)
+            uz.write(Buffer.concat(buf))
+            uz.end()
+          })
         } else {
           req.pipe(tar.extract('.prebuilds.tmp')).on('finish', loop)
         }
