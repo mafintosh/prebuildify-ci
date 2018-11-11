@@ -53,7 +53,7 @@ function download () {
 
   console.log('Downloading prebuilds from ' + repo.user + '/' + repo.repo + '@' + v)
 
-  ghreleases.getByTag({auth: ''}, repo.user, repo.repo, 'v' + v, function (err, doc) {
+  ghreleases.getByTag({}, repo.user, repo.repo, 'v' + v, {auth: ''}, function (err, doc) {
     if (err) {
       console.log('No release found. Try again after CI has finished')
       process.exit(1)
