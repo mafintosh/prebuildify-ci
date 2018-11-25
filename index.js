@@ -8,6 +8,7 @@ var tar = require('tar-fs')
 var unzip = require('unzip')
 var request = require('request')
 var rimraf = require('rimraf')
+var gunzip = require('gunzip-maybe')
 
 if (process.argv[2] === 'init') {
   prompt('Enter encrypted github token for travis:', function (travis) {
@@ -94,7 +95,7 @@ function download () {
             uz.end()
           })
         } else {
-          req.pipe(tar.extract('.prebuilds.tmp')).on('finish', loop)
+          req.pipe(gunzip()).pipe(tar.extract('.prebuilds.tmp')).on('finish', loop)
         }
       }
     })
