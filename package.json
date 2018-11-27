@@ -1,6 +1,6 @@
 {
   "name": "prebuildify-ci",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Easily setup prebuilding of native modules using CI and prebuildify",
   "main": "index.js",
   "dependencies": {
