@@ -6,6 +6,7 @@
   "dependencies": {
     "ghreleases": "^2.0.0",
     "gunzip-maybe": "^1.4.1",
+    "minimist": "^1.2.0",
     "package-repo": "^1.0.0",
     "request": "^2.85.0",
     "rimraf": "^2.6.2",
