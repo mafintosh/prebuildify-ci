@@ -143,7 +143,7 @@ function travis (token) {
 
 function appveyor (token) {
   return trim(`
-    build: false
+    build: off
 
     skip_branch_with_pr: true
 
@@ -152,6 +152,7 @@ function appveyor (token) {
         - nodejs_version: "Current"
 
     configuration: Release
+    
     platform:
       - x86
       - x64
@@ -166,13 +167,11 @@ function appveyor (token) {
       - npm --version
       - npm test
 
-    after_test:
-      - ps: If ($env:nodejs_version -eq "Current") { npm run prebuild }
-
-    artifacts:
-      - path: prebuilds
-        name: $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
-        type: zip
+    before_deploy:
+      - npm run prebuild
+      - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
+      - ps: 7z a $env:ARCHIVE_NAME .\\prebuilds\\*
+      - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
 
     deploy:
       - provider: GitHub
@@ -182,7 +181,7 @@ function appveyor (token) {
         auth_token:
           secure: ${token}
         on:
-          appveyor_repo_tag: true
+          APPVEYOR_REPO_TAG: true
           nodejs_version: "Current"
   `)
 }
