@@ -10,7 +10,7 @@
     "request": "^2.85.0",
     "rimraf": "^2.6.2",
     "tar-fs": "^1.16.0",
-    "unzip": "^0.1.11"
+    "unzipper": "^0.9.11"
   },
   "devDependencies": {
     "standard": "^11.0.0"
