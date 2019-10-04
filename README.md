@@ -1,6 +1,6 @@
 # prebuildify-ci
 
-Easily setup prebuilding of native modules using CI and [prebuildify](https://github.com/mafintosh/prebuildify)
+Easily setup prebuilding of native modules using CI and [prebuildify](https://github.com/prebuild/prebuildify)
 
 ```
 npm install -g prebuildify-ci
@@ -9,7 +9,7 @@ npm install -g prebuildify-ci
 ## Usage
 
 First create a native module and add a `prebuild` script to your npm scripts
-that prebuilds the module using [prebuildify](https://github.com/mafintosh/prebuildify).
+that prebuilds the module using [prebuildify](https://github.com/prebuild/prebuildify).
 
 An example of this can be found in the [turbo-net package](https://github.com/mafintosh/turbo-net/blob/master/package.json#L20)
 
@@ -41,8 +41,8 @@ Wait for CI to finish. Once all the builds are done run
 prebuildify-ci download
 ```
 
-This will download all the prebuilds into ./prebuilds where [node-gyp-build](https://github.com/mafintosh/node-gyp-build) will
-expect them to be stored.
+This will download all the prebuilds into ./prebuilds where [node-gyp-build](https://github.com/prebuild/node-gyp-build) will
+expect them to be stored. To optionally verify the number of expected platform-arch combinations, pass an `--expect <n>` parameter.
 
 That's it! Now you are ready to publish your tarball with the prebuilds included.
 

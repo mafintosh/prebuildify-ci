@@ -9,15 +9,16 @@ var unzip = require('unzipper')
 var request = require('request')
 var rimraf = require('rimraf')
 var gunzip = require('gunzip-maybe')
+var argv = require('minimist')(process.argv.slice(2))
 
-if (process.argv[2] === 'init') {
+if (argv._[0] === 'init') {
   prompt('Enter encrypted github token for travis:', function (travis) {
     prompt('Enter encrypted github token for appveyor:', function (appveyor) {
       init({travis, appveyor})
     })
   })
-} else if (process.argv[2] === 'download') {
-  download()
+} else if (argv._[0] === 'download') {
+  download(argv)
 } else {
   console.error('Usage: prebuildify-ci init|download')
   process.exit(1)
@@ -47,7 +48,7 @@ function init (opts) {
   }
 }
 
-function download () {
+function download (opts) {
   var file = path.resolve('./package.json')
   var repo = pkg(file)
   var v = require(file).version
@@ -62,11 +63,26 @@ function download () {
 
     var assets = doc.assets
 
+    if (!assets.length || !assets.every(uploaded)) {
+      console.log('Assets have not finished uploading. Try again after CI has finished')
+      process.exit(1)
+    }
+
     rimraf.sync('.prebuilds.tmp')
     fs.mkdir('.prebuilds.tmp', function () {
       loop()
 
       function done () {
+        if (opts.expect) {
+          var expected = opts.expect
+          var actual = fs.readdirSync('.prebuilds.tmp').length
+
+          if (actual !== expected) {
+            console.log('Expected %d platform-arch combinations, got %d', expected, actual)
+            process.exit(1)
+          }
+        }
+
         fs.rename('prebuilds', '.prebuilds.old.tmp', function () {
           fs.rename('.prebuilds.tmp', 'prebuilds', function (err) {
             if (err) throw err
@@ -100,6 +116,10 @@ function download () {
       }
     })
   })
+}
+
+function uploaded (asset) {
+  return asset.state === 'uploaded'
 }
 
 function travis (token) {
